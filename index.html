@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Most common words</title>
+	</head>
+	<body>
+		<form>
+			<textarea rows='10' cols='80' oninput="mostCommonWord(this)"></textarea>
+			<br/>
+			Most common words:<br/>
+			<input id="common_words" readonly="readonly"/>
+		</form>
+		<script>
+			var text = 'adoro viajar a melhor forma de viajar com seus amigos é mesmo não é pois';
+			var mostCommonWord = function(element){
+
+				var text = element.value;
+
+				if(text == undefined){
+					return null;
+				}
+
+				var res = text.replace(/,/g, '').trim().split(' '), // tirando virgula e espaco no inicio e fim da string
+					wordsCount = {},
+					higherOccur = 0,
+					wordsMostCommon = [],
+					commonWordsRes = document.getElementById("common_words");
+
+				// percorre a frase quebrada e para cada item, joga dentro do objeto wordsCount, quantas vezes aquela
+				// palavra apareceu
+				res.forEach(function(element){
+					if(wordsCount[element] != undefined){
+						var newOccur = ++wordsCount[element];
+						wordsCount[element] = newOccur;
+					}else{
+						var newOccur = 1;
+						wordsCount[element] = newOccur;
+					}
+					if(newOccur > higherOccur){
+						higherOccur = newOccur;
+					}
+				});
+
+				// Salva em um array as palavras com maiores ocorrencias
+				for(var key in wordsCount){
+					if(wordsCount[key] == higherOccur){
+						wordsMostCommon.push(key);
+					}
+				}
+
+				var result = wordsMostCommon.join(', ')
+				commonWordsRes.value = result;
+			}
+		</script>
+	</body>
+</html>
